@@ -5,5 +5,5 @@
 
 @import AppCenterCrashes.MSErrorReport;
 
-NSDictionary* convertReportToJS(MSErrorReport* report);
+NSDictionary* convertReportToJS(ErrorReport* report);
 NSArray* convertReportsToJS(NSArray* reports);

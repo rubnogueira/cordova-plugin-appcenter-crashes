@@ -20,7 +20,7 @@
     <engine name="cordova" version=">=6.4.0" />
     <engine name="cordova-ios" version=">=4.3.0" />
 
-    <!-- <dependency id="cordova-plugin-appcenter-shared" version="0.5.1"/> -->
+    <dependency id="cordova-plugin-appcenter-shared" version="github:rubnogueira/cordova-plugin-appcenter-shared"/>
 
     <js-module name="Crashes" src="www/Crashes.js">
         <clobbers target="AppCenter.Crashes" />
@@ -40,7 +40,8 @@
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
 
-        <framework src="com.microsoft.appcenter:appcenter-crashes:2.4.1" />
+        <!-- https://mvnrepository.com/artifact/com.microsoft.appcenter/appcenter-analytics -->
+        <framework src="com.microsoft.appcenter:appcenter-analytics:5.0.0" />
 
         <source-file src="src/android/AppCenterCrashesPlugin.java"
                      target-dir="src/com/microsoft/azure/mobile/cordova" />
@@ -74,8 +75,9 @@
                 <source url="https://cdn.cocoapods.org/"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="AppCenter" spec="~> 2.5.0" />
-                <pod name="AppCenter/Crashes" spec="~> 2.5.0" />
+                <!-- https://cocoapods.org/pods/AppCenter -->
+                <pod name="AppCenter" spec="~> 5.0.2" />
+                <pod name="AppCenter/Crashes" spec="~> 5.0.2" />
             </pods>
         </podspec>
     </platform>

@@ -17,27 +17,27 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
     return self;
 }
 
-- (BOOL) crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport
+- (BOOL) crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport
 {
     // By default handle all reports and expose them all to JS.
     [self storeReportForJS: errorReport];
     return YES;
 }
 
-- (MSUserConfirmationHandler)shouldAwaitUserConfirmationHandler
+- (MSACUserConfirmationHandler)shouldAwaitUserConfirmationHandler
 {
     // Do not send anything until instructed to by JS
-    return ^(NSArray<MSErrorReport *> *errorReports){
+    return ^(NSArray<MSACErrorReport *> *errorReports){
         return YES;
     };
 }
 
-- (void)storeReportForJS:(MSErrorReport *) report
+- (void)storeReportForJS:(MSACErrorReport *) report
 {
     [self.reports addObject:report];
 }
 
-- (CDVPluginResult*) pluginResultForEvent: (NSString*)eventName withReport: (MSErrorReport* ) errorReport
+- (CDVPluginResult*) pluginResultForEvent: (NSString*)eventName withReport: (MSACErrorReport* ) errorReport
 {
     NSDictionary* event = [NSDictionary dictionaryWithObjectsAndKeys:
                            eventName, @"type",
@@ -50,7 +50,7 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
     return result;
 }
 
-- (void) crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport
+- (void) crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport
 {
     CDVPluginResult* result = [self pluginResultForEvent:ON_BEFORE_SENDING_EVENT
                                              withReport:errorReport];
@@ -59,7 +59,7 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
                                               callbackId:self.eventsCallbackId];
 }
 
-- (void) crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport
+- (void) crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport
 {
     CDVPluginResult* result = [self pluginResultForEvent:ON_SENDING_SUCCEEDED_EVENT
                                               withReport:errorReport];
@@ -67,7 +67,7 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
     [self.crashesPlugin.commandDelegate sendPluginResult:result
                                               callbackId:self.eventsCallbackId];}
 
-- (void) crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)sendError
+- (void) crashes:(MSACCrashes *)crashes didFailSendingErrorReport:(MSACErrorReport *)errorReport withError:(NSError *)sendError
 {
     CDVPluginResult* result = [self pluginResultForEvent:ON_SENDING_FAILED_EVENT
                                               withReport:errorReport];
@@ -86,8 +86,8 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
     self.eventsCallbackId = id;
 }
 
-- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                             forErrorReport:(MSErrorReport *)errorReport
+- (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes
+                                             forErrorReport:(MSACErrorReport *)errorReport
 {
     id attachmentLogs = [[NSMutableArray alloc] init];
     id attachmentsForErrorReport = [self.attachments objectForKey:[errorReport incidentIdentifier]];
@@ -104,7 +104,7 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
                 // Check for text versus binary attachment.
                 id text = [attachmentDict objectForKey:@"text"];
                 if (text && [text isKindOfClass:[NSString class]]) {
-                    id attachmentLog = [MSErrorAttachmentLog attachmentWithText:text filename:fileNameString];
+                    id attachmentLog = [MSACErrorAttachmentLog attachmentWithText:text filename:fileNameString];
                     [attachmentLogs addObject:attachmentLog];
                 }
                 else {
@@ -118,7 +118,7 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
                         if (contentType && [contentType isKindOfClass:[NSString class]]) {
                             contentTypeString = (NSString *) contentType;
                         }
-                        id attachmentLog = [MSErrorAttachmentLog attachmentWithBinary:decodedData filename:fileNameString contentType:contentTypeString];
+                        id attachmentLog = [MSACErrorAttachmentLog attachmentWithBinary:decodedData filename:fileNameString contentType:contentTypeString];
                         [attachmentLogs addObject:attachmentLog];
                     }
                 }
@@ -128,9 +128,9 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
     return attachmentLogs;
 }
 
-- (NSArray<MSErrorReport *>*) getAndClearReports
+- (NSArray<MSACErrorReport *>*) getAndClearReports
 {
-    NSArray<MSErrorReport *>* result = self.reports;
+    NSArray<MSACErrorReport *>* result = self.reports;
     self.reports = [[NSMutableArray alloc] init];
     return result;
 }
@@ -138,16 +138,16 @@ static NSString *ON_SENDING_SUCCEEDED_EVENT = @"didSendCrash";
 @end
 
 @implementation CordovaCrashesDelegateAlwaysSend
-- (BOOL) crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport
+- (BOOL) crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport
 {
     // Do not pass the report to JS, but do process them
     return YES;
 }
 
-- (MSUserConfirmationHandler)shouldAwaitUserConfirmationHandler
+- (MSACUserConfirmationHandler)shouldAwaitUserConfirmationHandler
 {
     // Do not wait for user confirmation, always send.
-    return ^(NSArray<MSErrorReport *> *errorReports){
+    return ^(NSArray<MSACErrorReport *> *errorReports){
         return NO;
     };
 }

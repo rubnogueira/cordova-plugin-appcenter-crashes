@@ -3,90 +3,90 @@
 
 #import "CrashesUtils.h"
 
-@import AppCenterCrashes.MSErrorReport;
+@import AppCenterCrashes.ErrorReport;
 @import AppCenter.MSDevice;
 
 NSArray* convertReportsToJS(NSArray* reports) {
     NSMutableArray* jsReadyReports = [[NSMutableArray alloc] init];
-    [reports enumerateObjectsUsingBlock:^(MSErrorReport* report, NSUInteger idx, BOOL * stop) {
+    [reports enumerateObjectsUsingBlock:^(MSACErrorReport* report, NSUInteger idx, BOOL * stop) {
         [jsReadyReports addObject:convertReportToJS(report)];
     }];
     return jsReadyReports;
 }
 
 
-static NSString *const kMSSdkName = @"sdk_name";
-static NSString *const kMSSdkVersion = @"sdk_version";
-static NSString *const kMSModel = @"model";
-static NSString *const kMSOemName = @"oem_name";
-static NSString *const kMSOsName = @"os_name";
-static NSString *const kMSOsVersion = @"os_version";
-static NSString *const kMSOsBuild = @"os_build";
-static NSString *const kMSOsApiLevel = @"os_api_level";
-static NSString *const kMSLocale = @"locale";
-static NSString *const kMSTimeZoneOffset = @"time_zone_offset";
-static NSString *const kMSScreenSize = @"screen_size";
-static NSString *const kMSAppVersion = @"app_version";
-static NSString *const kMSCarrierName = @"carrier_name";
-static NSString *const kMSCarrierCountry = @"carrier_country";
-static NSString *const kMSAppBuild = @"app_build";
-static NSString *const kMSAppNamespace = @"app_namespace";
+static NSString *const kMSACSdkName = @"sdk_name";
+static NSString *const kMSACSdkVersion = @"sdk_version";
+static NSString *const kMSACModel = @"model";
+static NSString *const kMSACOemName = @"oem_name";
+static NSString *const kMSACOsName = @"os_name";
+static NSString *const kMSACOsVersion = @"os_version";
+static NSString *const kMSACOsBuild = @"os_build";
+static NSString *const kMSACOsApiLevel = @"os_api_level";
+static NSString *const kMSACLocale = @"locale";
+static NSString *const kMSACTimeZoneOffset = @"time_zone_offset";
+static NSString *const kMSACScreenSize = @"screen_size";
+static NSString *const kMSACAppVersion = @"app_version";
+static NSString *const kMSACCarrierName = @"carrier_name";
+static NSString *const kMSACCarrierCountry = @"carrier_country";
+static NSString *const kMSACAppBuild = @"app_build";
+static NSString *const kMSACAppNamespace = @"app_namespace";
 
 static NSDictionary *serializeDeviceToDictionary(MSDevice* device) {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
 
     if (device.sdkName) {
-        dict[kMSSdkName] = device.sdkName;
+        dict[kMSACSdkName] = device.sdkName;
     }
     if (device.sdkVersion) {
-        dict[kMSSdkVersion] = device.sdkVersion;
+        dict[kMSACSdkVersion] = device.sdkVersion;
     }
     if (device.model) {
-        dict[kMSModel] = device.model;
+        dict[kMSACModel] = device.model;
     }
     if (device.oemName) {
-        dict[kMSOemName] = device.oemName;
+        dict[kMSACOemName] = device.oemName;
     }
     if (device.osName) {
-        dict[kMSOsName] = device.osName;
+        dict[kMSACOsName] = device.osName;
     }
     if (device.osVersion) {
-        dict[kMSOsVersion] = device.osVersion;
+        dict[kMSACOsVersion] = device.osVersion;
     }
     if (device.osBuild) {
-        dict[kMSOsBuild] = device.osBuild;
+        dict[kMSACOsBuild] = device.osBuild;
     }
     if (device.osApiLevel) {
-        dict[kMSOsApiLevel] = device.osApiLevel;
+        dict[kMSACOsApiLevel] = device.osApiLevel;
     }
     if (device.locale) {
-        dict[kMSLocale] = device.locale;
+        dict[kMSACLocale] = device.locale;
     }
     if (device.timeZoneOffset) {
-        dict[kMSTimeZoneOffset] = device.timeZoneOffset;
+        dict[kMSACTimeZoneOffset] = device.timeZoneOffset;
     }
     if (device.screenSize) {
-        dict[kMSScreenSize] = device.screenSize;
+        dict[kMSACScreenSize] = device.screenSize;
     }
     if (device.appVersion) {
-        dict[kMSAppVersion] = device.appVersion;
+        dict[kMSACAppVersion] = device.appVersion;
     }
     if (device.carrierName) {
-        dict[kMSCarrierName] = device.carrierName;
+        dict[kMSACCarrierName] = device.carrierName;
     }
     if (device.carrierCountry) {
-        dict[kMSCarrierCountry] = device.carrierCountry;
+        dict[kMSACCarrierCountry] = device.carrierCountry;
     }
     if (device.appBuild) {
-        dict[kMSAppBuild] = device.appBuild;
+        dict[kMSACAppBuild] = device.appBuild;
     }
     if (device.appNamespace) {
-        dict[kMSAppNamespace] = device.appNamespace;
+        dict[kMSACAppNamespace] = device.appNamespace;
     }
     return dict;
 }
 
-NSDictionary* convertReportToJS(MSErrorReport* report) {
+NSDictionary* convertReportToJS(MSACErrorReport* report) {
     if (report == nil) {
         return nil;
     }

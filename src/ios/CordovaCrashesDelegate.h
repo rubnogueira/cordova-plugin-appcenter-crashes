@@ -8,21 +8,21 @@
 @import AppCenterCrashes;
 
 @class CordovaCrashes;
-@class MSErrorReport;
+@class ErrorReport;
 
-@protocol CordovaCrashesDelegate <MSCrashesDelegate>
+@protocol CordovaCrashesDelegate <MSACCrashesDelegate>
 // Call to expose a report to JS
-- (void)storeReportForJS:(MSErrorReport *) report;
-- (MSUserConfirmationHandler)shouldAwaitUserConfirmationHandler;
+- (void)storeReportForJS:(MSACErrorReport *) report;
+- (MSACUserConfirmationHandler)shouldAwaitUserConfirmationHandler;
 
 
 @optional
 // Called when the JS code provides a send / don't-send response
-- reportUserResponse: (MSUserConfirmation)confirmation;
+- reportUserResponse: (MSACUserConfirmation)confirmation;
 
 @required
 // Internal use only, to configure native <-> JS communication
-- (NSArray<MSErrorReport *> *) getAndClearReports;
+- (NSArray<MSACErrorReport *> *) getAndClearReports;
 - (void) provideAttachments: (NSDictionary*) attachments;
 - (void) setEventsCallbackChannelForPlugin: (CDVPlugin *) plugin callbackId: (NSString*) id;
 @end
