@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin id="cordova-plugin-appcenter-crashes"
-        version="0.5.1"
+        version="0.5.2"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -20,7 +20,7 @@
     <engine name="cordova" version=">=6.4.0" />
     <engine name="cordova-ios" version=">=4.3.0" />
 
-    <dependency id="cordova-plugin-appcenter-shared" version="github:rubnogueira/cordova-plugin-appcenter-shared"/>
+    <dependency id="cordova-plugin-appcenter-shared" version="0.5.2"/>
 
     <js-module name="Crashes" src="www/Crashes.js">
         <clobbers target="AppCenter.Crashes" />
