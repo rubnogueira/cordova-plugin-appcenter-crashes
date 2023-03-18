@@ -3,8 +3,8 @@
 
 #import "CrashesUtils.h"
 
-@import AppCenterCrashes.ErrorReport;
-@import AppCenter.MSDevice;
+@import AppCenterCrashes.MSACErrorReport;
+@import AppCenter.MSACDevice;
 
 NSArray* convertReportsToJS(NSArray* reports) {
     NSMutableArray* jsReadyReports = [[NSMutableArray alloc] init];
@@ -32,7 +32,7 @@ static NSString *const kMSACCarrierCountry = @"carrier_country";
 static NSString *const kMSACAppBuild = @"app_build";
 static NSString *const kMSACAppNamespace = @"app_namespace";
 
-static NSDictionary *serializeDeviceToDictionary(MSDevice* device) {
+static NSDictionary *serializeDeviceToDictionary(MSACDevice* device) {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
 
     if (device.sdkName) {
